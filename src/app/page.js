@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Estados from "./components/estados";
+import Link from "next/link";
 
 export default function Home() {
   const habitos = {
@@ -15,7 +16,10 @@ export default function Home() {
     },
   };
 
+  const hoje = new Date();
+  const diaSemana = hoje.getDay();
   const Dsemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
+  const dias = Dsemana.slice(diaSemana).concat(Dsemana.slice(0, diaSemana)); // Corrigido para o cálculo dos dias da semana
 
   return (
     <>
@@ -27,7 +31,7 @@ export default function Home() {
             <div key={habito} className="mb-4">
               <div className="flex justify-between items-center">
                 <span className="font-bold text-xl mr-2">{habito}</span>
-                <button>
+                <button aria-label={`Apagar hábito ${habito}`}>
                   <Image
                     src="https://www.svgrepo.com/show/530109/garbage-can.svg"
                     width={20}
@@ -37,7 +41,7 @@ export default function Home() {
                 </button>
               </div>
               <section className="grid grid-cols-7 rounded border p-2 gap-2">
-                {Dsemana.map((dia, index) => {
+                {dias.map((dia, index) => {
                   const dateKey = Object.keys(habitoStreaks)[index]; // Considerando que o índice corresponde à ordem das datas
                   const estado = habitoStreaks[dateKey];
 
@@ -52,6 +56,9 @@ export default function Home() {
             </div>
           ))
         )}
+        <Link href={'novot'} className="fixed bottom-10 right-10 bg-green-600 text-white p-2 rounded items-center jutify-center">
+          Novo hábito
+        </Link>
       </main>
     </>
   );
